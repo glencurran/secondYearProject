@@ -12,12 +12,9 @@ public class GameBoard extends JFrame implements ActionListener{
     JPanel start = new JPanel();
     JButton buttons[];
     JButton beginButton;
-    int numButtons;
+    static int numButtons;
     ImageIcon turnedOver;
-
     ImageIcon images[] = new ImageIcon[8];
-    int tempArray[] = new int[8];
-    Random randomGenerator = new Random();
     int numClicks = 0;
     int cardHolder1 = 0;
     int cardHolder2 = 0;
@@ -33,7 +30,9 @@ public class GameBoard extends JFrame implements ActionListener{
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
         /**
-         * Building an array of images, Using each 1 twice so they can match
+         * Building an array of images, Using each 1 twice so they can match.
+         * Cheated and hard coded the values, I was originally using a for loop to generate this but I was
+         * running into alot of problems and needed to simplify my code.
          */
         images[0] = new ImageIcon(this.getClass().getResource("\\images\\1.png"));
         images[1] = new ImageIcon(this.getClass().getResource("\\images\\1.png"));
@@ -83,6 +82,7 @@ public class GameBoard extends JFrame implements ActionListener{
         scoreCounterLabel.setBounds(270, 60, 250, 50);
 
         beginButton = new JButton(new ImageIcon(this.getClass().getResource("\\images\\BeginGame.png")));
+        beginButton.addActionListener(this);
         beginButton.setBounds(20, 120, 250, 50);
 
         start.setPreferredSize(new Dimension(200, 200));
@@ -93,6 +93,18 @@ public class GameBoard extends JFrame implements ActionListener{
         start.add(scoreCounterLabel);
         start.add(beginButton);
 
+        /**
+         * Uses java.util.Random to generate a random number between 0 and 8(numButtons).
+         *
+         */
+//        Random randomNumber = new Random();
+//        for(int i = 0 ; i < numButtons; i++){
+//            int rand = randomNumber.nextInt(numButtons);
+//            ImageIcon tempHolder = images[i];
+//            images[i] = images[rand];
+//            images[rand] = tempHolder;
+//        }
+        shuffleCards(images);
         // Trying to set a gap between each card
         BorderLayout cardLayout = new BorderLayout(10, 10);
         add(gamePanel, cardLayout.NORTH);
@@ -101,25 +113,39 @@ public class GameBoard extends JFrame implements ActionListener{
         setVisible(true);
 
     }
+    /**
+     * Shuffle method uses java.util.Random to generate a random number between 0 and 8(numButtons).
+     * It takes an array of ImageIcons and rearranges them.
+     *
+     */
+    public  static void shuffleCards(ImageIcon[] images){
+        Random randomNumber = new Random();
+        for(int i = 0 ; i < numButtons; i++){
+            int rand = randomNumber.nextInt(numButtons);
+            ImageIcon tempHolder = images[i];
+            images[i] = images[rand];
+            images[rand] = tempHolder;
+        }
+    }
     public static boolean checkMatch(JButton button1, JButton button2){
         if(button1.getIcon() == button2.getIcon()){
             return true;
-        }else{
-            return false;
         }
+        return false;
     }
+
     public void actionPerformed(ActionEvent e){
         for(int i = 0; i < numButtons; i++){
             if(e.getSource() == buttons[i]){
                 numClicks++;
                 if(numClicks == 1){
-                    int j = randomGenerator.nextInt(numButtons);
-                    buttons[i].setIcon(images[j]);
+                    buttons[i].setIcon(images[i]);
                     cardHolder1 = i;
                 }else if(numClicks == 2){
-                    int j = randomGenerator.nextInt(numButtons);
-                    buttons[i].setIcon(images[j]);
+                    buttons[i].setIcon(images[i]);
                     cardHolder2 = i;
+                }
+                if(numClicks == 3){
                     if(checkMatch(buttons[cardHolder1], buttons[cardHolder2])){
                         score++;
                         scoreCounterLabel.setText("" + score);
@@ -130,9 +156,14 @@ public class GameBoard extends JFrame implements ActionListener{
                         numClicks = 0;
                     }
                 }
+
                 if(Integer.parseInt(scoreCounterLabel.getText()) == 4){
                     JOptionPane.showMessageDialog(null, "You won");
                 }
+            }else if(e.getSource() == beginButton){
+                super.dispose();
+                GameBoard gameBoard1 = new GameBoard();
+                gameBoard1.setVisible(true);
             }
         }
     }
