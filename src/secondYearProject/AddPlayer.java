@@ -12,10 +12,10 @@ public class AddPlayer extends JFrame implements ActionListener {
 
     JButton addPlayer, startGame, goBack;
     JTextField nameField;
-    Player player1;
+    Player player1 = new Player();
 
     public AddPlayer(){
-        setTitle("Add secondYearProject.Player");
+        setTitle("Add Player");
         setSize(600, 550);
         setLocation(700, 200);
         setResizable(false);
@@ -44,9 +44,6 @@ public class AddPlayer extends JFrame implements ActionListener {
         addPlayerLabel.setFont(font1);
         addPlayerLabel.setForeground(Color.black);
         addPlayerLabel.setBounds(50, 300, 250, 50);
-
-        player1 = new Player();
-        player1.setName(nameField.getText());
 
         addPlayer = new JButton(new ImageIcon(this.getClass().getResource("\\images\\ConfirmSave.png")));
         addPlayer.setBounds(300, 300, 250, 50);
@@ -93,8 +90,8 @@ public class AddPlayer extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e){
         if(e.getSource() == addPlayer){
             try {
-                saveName(nameField.getText());
-                //saveName(player1.getName());
+                player1.setName(nameField.getText());
+                saveName(player1.getName());
                 JOptionPane.showMessageDialog(null, "Name Saved Successfully");
             }catch (IOException f){
                 JOptionPane.showMessageDialog(null, "Name Saved Unsuccessfully");

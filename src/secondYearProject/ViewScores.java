@@ -12,7 +12,7 @@ public class ViewScores{
         try{
             BufferedReader in = new BufferedReader(new FileReader(("players.txt")));
             while((nextPlayer = in.readLine()) != null){
-                output.append("secondYearProject.Player Name: " + nextPlayer + "\n");
+                output.append("\nPlayer Name: " + nextPlayer + "\n");
                 //System.out.println("Name: " + nextPlayer); // Testing Output String
             }
         }catch(IOException e){

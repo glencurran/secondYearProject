@@ -7,11 +7,16 @@ import java.awt.event.ActionListener;
 import java.util.*;
 import java.util.List;
 
+/**
+ * GameBoard class constructs the game using JPanel and filling it with buttons. The buttons are in a grid format.
+ * when the game launches they all are placed face down with only the back of the card visible. A shuffle card method
+ * runs and using a prebuilt array or deck of images it shuffles their positions in the array.
+ */
 public class GameBoard extends JFrame implements ActionListener{
     JPanel gamePanel = new JPanel();
     JPanel start = new JPanel();
     JButton buttons[];
-    JButton beginButton;
+    JButton restart;
     static int numButtons;
     ImageIcon turnedOver;
     ImageIcon images[] = new ImageIcon[8];
@@ -20,6 +25,7 @@ public class GameBoard extends JFrame implements ActionListener{
     int cardHolder2 = 0;
     JLabel scoreCounterLabel;
     int score = 0;
+    Player player1;
 
 
     public GameBoard(){
@@ -49,62 +55,60 @@ public class GameBoard extends JFrame implements ActionListener{
         numButtons = images.length;
         buttons = new JButton[numButtons];
 
+        /**
+         * loop used to populate the game board with cards/buttons.
+         */
         for(int i = 0; i < images.length; i++){
             buttons[i] = new JButton();
             buttons[i].addActionListener(this);
             buttons[i].setIcon(turnedOver);
             gamePanel.add(buttons[i]);
         }
-
+        /**
+         * adding various jComponents to the lower JPanel.
+         */
         JLabel nameLabel = new JLabel("Player Name:");
         Font font1 = new Font("SansSerif", Font.BOLD, 25);
         nameLabel.setFont(font1);
         nameLabel.setForeground(Color.BLACK);
         nameLabel.setBounds(20, 0, 250, 50);
 
-        JLabel nameFromMemory = new JLabel("\"Placeholder\""); // player1.getName();
+        JLabel nameFromMemory = new JLabel("\"Placeholder for player name\""); // player1.getName();
         font1 = new Font("SansSerif", Font.BOLD, 25);
         nameFromMemory.setFont(font1);
         nameFromMemory.setForeground(Color.RED);
         nameFromMemory.setBounds(270, 0, 250, 50);
 
         JLabel scoreLabel = new JLabel();
-        scoreLabel.setText("" + score);
+        scoreLabel.setText("Score:");
         font1 = new Font("SansSerif", Font.BOLD, 25);
         scoreLabel.setFont(font1);
         scoreLabel.setForeground(Color.BLACK);
         scoreLabel.setBounds(20, 60, 250, 50);
 
-        scoreCounterLabel = new JLabel("0");
+        scoreCounterLabel = new JLabel("" + score);
         font1 = new Font("SansSerif", Font.BOLD, 25);
         scoreCounterLabel.setFont(font1);
         scoreCounterLabel.setForeground(Color.RED);
         scoreCounterLabel.setBounds(270, 60, 250, 50);
 
-        beginButton = new JButton(new ImageIcon(this.getClass().getResource("\\images\\BeginGame.png")));
-        beginButton.addActionListener(this);
-        beginButton.setBounds(20, 120, 250, 50);
+        restart = new JButton(new ImageIcon(this.getClass().getResource("\\images\\Restart.png")));
+        restart.addActionListener(this);
+        restart.setBounds(20, 120, 250, 50);
 
         start.setPreferredSize(new Dimension(200, 200));
         start.setLayout(null);
         start.add(nameLabel);
-        start.add(nameFromMemory);
+//        start.add(nameFromMemory);
         start.add(scoreLabel);
         start.add(scoreCounterLabel);
-        start.add(beginButton);
+        start.add(restart);
 
         /**
-         * Uses java.util.Random to generate a random number between 0 and 8(numButtons).
-         *
+         * shuffleCards() called statically to rearrange the deck.
          */
-//        Random randomNumber = new Random();
-//        for(int i = 0 ; i < numButtons; i++){
-//            int rand = randomNumber.nextInt(numButtons);
-//            ImageIcon tempHolder = images[i];
-//            images[i] = images[rand];
-//            images[rand] = tempHolder;
-//        }
         shuffleCards(images);
+
         // Trying to set a gap between each card
         BorderLayout cardLayout = new BorderLayout(10, 10);
         add(gamePanel, cardLayout.NORTH);
@@ -127,8 +131,13 @@ public class GameBoard extends JFrame implements ActionListener{
             images[rand] = tempHolder;
         }
     }
+
+    /**
+     * checkMatch() takes in two JButtons are arguments and then checks to see if their references match. If they do
+     * it returns true and if they don't it returns false.
+     */
     public static boolean checkMatch(JButton button1, JButton button2){
-        if(button1.getIcon() == button2.getIcon()){
+        if(button1.getIcon().equals( button2.getIcon())){
             return true;
         }
         return false;
@@ -160,7 +169,7 @@ public class GameBoard extends JFrame implements ActionListener{
                 if(Integer.parseInt(scoreCounterLabel.getText()) == 4){
                     JOptionPane.showMessageDialog(null, "You won");
                 }
-            }else if(e.getSource() == beginButton){
+            }else if(e.getSource() == restart){
                 super.dispose();
                 GameBoard gameBoard1 = new GameBoard();
                 gameBoard1.setVisible(true);
