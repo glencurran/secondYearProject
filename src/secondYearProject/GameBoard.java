@@ -14,8 +14,6 @@ public class GameBoard extends JFrame implements ActionListener{
     JButton beginButton;
     int numButtons;
     ImageIcon turnedOver;
-    List<ImageIcon> imageArray = new ArrayList<>();
-    List<ImageIcon> imageArray2 = new ArrayList<>();
 
     ImageIcon images[] = new ImageIcon[8];
     int tempArray[] = new int[8];
@@ -23,6 +21,8 @@ public class GameBoard extends JFrame implements ActionListener{
     int numClicks = 0;
     int cardHolder1 = 0;
     int cardHolder2 = 0;
+    JLabel scoreCounterLabel;
+    int score = 0;
 
 
     public GameBoard(){
@@ -32,14 +32,9 @@ public class GameBoard extends JFrame implements ActionListener{
         setResizable(true);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-        // Trying to set a gap between each card
-//        GridBagConstraints gridSpacing = new GridBagConstraints();
-//        gridSpacing.weightx = 1;
-//        gridSpacing.weighty = .25;
-//        gridSpacing.insets = new Insets(5, 1, 5, 1);
-//        gridSpacing.gridwidth = GridBagConstraints.REMAINDER;
-//        gridSpacing.fill = GridBagConstraints.BOTH;
-
+        /**
+         * Building an array of images, Using each 1 twice so they can match
+         */
         images[0] = new ImageIcon(this.getClass().getResource("\\images\\1.png"));
         images[1] = new ImageIcon(this.getClass().getResource("\\images\\1.png"));
         images[2] = new ImageIcon(this.getClass().getResource("\\images\\2.png"));
@@ -49,15 +44,9 @@ public class GameBoard extends JFrame implements ActionListener{
         images[6] = new ImageIcon(this.getClass().getResource("\\images\\4.png"));
         images[7] = new ImageIcon(this.getClass().getResource("\\images\\4.png"));
 
-        // Building List of secondYearProject.images
-        for(int i = 1; i <= 4; i++){
-            imageArray.add(new ImageIcon(this.getClass().getResource("\\images\\" + i + ".png")));
-        }
-
         turnedOver = new ImageIcon(this.getClass().getResource("\\images\\cardImage.png"));
         gamePanel.setPreferredSize(new Dimension(500, 450));
-        gamePanel.setLayout(new GridLayout(2,imageArray.size()));
-        //numButtons = imageArray.size() * 2;
+        gamePanel.setLayout(new GridLayout(2, images.length));
         numButtons = images.length;
         buttons = new JButton[numButtons];
 
@@ -67,57 +56,6 @@ public class GameBoard extends JFrame implements ActionListener{
             buttons[i].setIcon(turnedOver);
             gamePanel.add(buttons[i]);
         }
-
-
-//        for(int i = 0; i <imageArray.size(); i++){
-//            for(int j = 0; j < imageArray.size(); j++){
-//                imageArray2.add(imageArray.get(i));
-//                buttons[j] = new JButton();
-//                buttons[j].addActionListener(this);
-//                buttons[j].setIcon(turnedOver);
-//                gamePanel.add(buttons[j++]);
-//                if(i == 0){
-//                    imageArray2.add(imageArray.get(i));
-//                    buttons[j] = new JButton();
-//                    buttons[j].addActionListener(this);
-//                    buttons[j].setIcon(turnedOver);
-//                    gamePanel.add(buttons[j++]);
-//                }else{
-//                    imageArray2.add(imageArray.get(i - 1));
-//                    buttons[j] = new JButton();
-//                    buttons[j].addActionListener(this);
-//                    buttons[j].setIcon(turnedOver);
-//                    gamePanel.add(buttons[j++]);
-//                }
-//            }
-//        }
-//        for(int i = 0, j = 0; i < imageArray.size(); i++){
-//            imageArray2.add(imageArray.get(i));
-//            buttons[j] = new JButton();
-//            buttons[j].addActionListener(this);
-//            buttons[j].setIcon(turnedOver);
-//            gamePanel.add(buttons[j++]);
-//            if(i == 0){
-//                imageArray2.add(imageArray.get(i));
-//                buttons[j] = new JButton();
-//                buttons[j].addActionListener(this);
-//                buttons[j].setIcon(turnedOver);
-//                gamePanel.add(buttons[j++]);
-//            }else{
-//                imageArray2.add(imageArray.get(i - 1));
-//                buttons[j] = new JButton();
-//                buttons[j].addActionListener(this);
-//                buttons[j].setIcon(turnedOver);
-//                gamePanel.add(buttons[j++]);
-//            }
-//        }
-//
-//        //Using java.util.Random to randomize secondYearProject.images
-//        Random randomGenerator = new Random();
-//        for(int i = 0; i < numButtons; i++){
-//            int j = randomGenerator.nextInt(numButtons);
-//            imageArray2.add(i, imageArray2.get(j));
-//        }
 
         JLabel nameLabel = new JLabel("Player Name:");
         Font font1 = new Font("SansSerif", Font.BOLD, 25);
@@ -131,13 +69,14 @@ public class GameBoard extends JFrame implements ActionListener{
         nameFromMemory.setForeground(Color.RED);
         nameFromMemory.setBounds(270, 0, 250, 50);
 
-        JLabel scoreLabel = new JLabel("Score:");
+        JLabel scoreLabel = new JLabel();
+        scoreLabel.setText("" + score);
         font1 = new Font("SansSerif", Font.BOLD, 25);
         scoreLabel.setFont(font1);
         scoreLabel.setForeground(Color.BLACK);
         scoreLabel.setBounds(20, 60, 250, 50);
 
-        JLabel scoreCounterLabel = new JLabel("0");
+        scoreCounterLabel = new JLabel("0");
         font1 = new Font("SansSerif", Font.BOLD, 25);
         scoreCounterLabel.setFont(font1);
         scoreCounterLabel.setForeground(Color.RED);
@@ -162,25 +101,38 @@ public class GameBoard extends JFrame implements ActionListener{
         setVisible(true);
 
     }
-//    public void actionPerformed(ActionEvent e){
-//        for(int i = 0; i < numButtons; i++){
-//            if(e.getSource() == buttons[i]){
-//                buttons[i].setIcon(imageArray2.get(i));
-//
-//            }
-//        }
-//    }
+    public static boolean checkMatch(JButton button1, JButton button2){
+        if(button1.getIcon() == button2.getIcon()){
+            return true;
+        }else{
+            return false;
+        }
+    }
     public void actionPerformed(ActionEvent e){
         for(int i = 0; i < numButtons; i++){
             if(e.getSource() == buttons[i]){
-                int j = randomGenerator.nextInt(numButtons);
-                buttons[i].setIcon(images[j]);
-                cardHolder1 = i;
                 numClicks++;
-             if(numClicks == 3){
-                 buttons[cardHolder1].setIcon(turnedOver);
-                 numClicks = 0;
-             }
+                if(numClicks == 1){
+                    int j = randomGenerator.nextInt(numButtons);
+                    buttons[i].setIcon(images[j]);
+                    cardHolder1 = i;
+                }else if(numClicks == 2){
+                    int j = randomGenerator.nextInt(numButtons);
+                    buttons[i].setIcon(images[j]);
+                    cardHolder2 = i;
+                    if(checkMatch(buttons[cardHolder1], buttons[cardHolder2])){
+                        score++;
+                        scoreCounterLabel.setText("" + score);
+                        numClicks = 0;
+                    }else{
+                        buttons[cardHolder1].setIcon(turnedOver);
+                        buttons[cardHolder2].setIcon(turnedOver);
+                        numClicks = 0;
+                    }
+                }
+                if(Integer.parseInt(scoreCounterLabel.getText()) == 4){
+                    JOptionPane.showMessageDialog(null, "You won");
+                }
             }
         }
     }
