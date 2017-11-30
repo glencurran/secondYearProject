@@ -5,6 +5,11 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * Glen Curran T00018075
+ * Second Year Java Project.
+ * Concentration Card Game.
+ */
 public class TitleScreen extends JFrame implements ActionListener{
     JButton newGame;
     JButton viewHighScores;

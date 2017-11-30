@@ -1,10 +1,12 @@
 package secondYearProject;
 
+/**
+ * Glen Curran T00018075
+ * Second Year Java Project.
+ * Concentration Card Game.
+ */
 public class GameDriver {
     public static void main(String[] args) {
-
-       //secondYearProject.Player player1 = new secondYearProject.Player();
-
        TitleScreen game1 =  new TitleScreen();
        game1.setVisible(true);
     }

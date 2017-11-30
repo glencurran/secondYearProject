@@ -3,6 +3,11 @@ package secondYearProject;
 import javax.swing.*;
 import java.io.*;
 
+/**
+ * Glen Curran T00018075
+ * Second Year Java Project.
+ * Concentration Card Game.
+ */
 public class ViewScores{
     String nextPlayer = null;
     JTextArea output = new JTextArea("High Scores");

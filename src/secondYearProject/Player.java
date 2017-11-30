@@ -1,7 +1,11 @@
 package secondYearProject;
 
 import java.io.Serializable;
-
+/**
+ * Glen Curran T00018075
+ * Second Year Java Project.
+ * Concentration Card Game.
+ */
 public class Player implements Serializable{
     private String name;
     private int score;

@@ -8,6 +8,11 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 
+/**
+ * Glen Curran T00018075
+ * Second Year Java Project.
+ * Concentration Card Game.
+ */
 public class AddPlayer extends JFrame implements ActionListener {
 
     JButton addPlayer, startGame, goBack;

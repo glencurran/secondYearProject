@@ -8,6 +8,10 @@ import java.util.*;
 import java.util.List;
 
 /**
+ * Glen Curran T00018075
+ * Second Year Java Project.
+ * Concentration Card Game.
+ *
  * GameBoard class constructs the game using JPanel and filling it with buttons. The buttons are in a grid format.
  * when the game launches they all are placed face down with only the back of the card visible. A shuffle card method
  * runs and using a prebuilt array or deck of images it shuffles their positions in the array.
@@ -38,7 +42,7 @@ public class GameBoard extends JFrame implements ActionListener{
         /**
          * Building an array of images, Using each 1 twice so they can match.
          * Cheated and hard coded the values, I was originally using a for loop to generate this but I was
-         * running into alot of problems and needed to simplify my code.
+         * running into a lot of problems and needed to simplify my code.
          */
         images[0] = new ImageIcon(this.getClass().getResource("\\images\\1.png"));
         images[1] = new ImageIcon(this.getClass().getResource("\\images\\1.png"));
@@ -111,6 +115,7 @@ public class GameBoard extends JFrame implements ActionListener{
 
         // Trying to set a gap between each card
         BorderLayout cardLayout = new BorderLayout(10, 10);
+
         add(gamePanel, cardLayout.NORTH);
         add(start, BorderLayout.SOUTH);
         pack();
@@ -143,6 +148,12 @@ public class GameBoard extends JFrame implements ActionListener{
         return false;
     }
 
+    /**
+     * actionPerformed method that does keeps track of the number of clicks. After 2 clicks it compares the
+     * two cards that are turned up. If they match score is increased by 1. If they don't then on the third click
+     * they are turned back face down. When the score reaches 4 the game is over and a congratulations message
+     * is displayed.
+     */
     public void actionPerformed(ActionEvent e){
         for(int i = 0; i < numButtons; i++){
             if(e.getSource() == buttons[i]){
@@ -167,7 +178,7 @@ public class GameBoard extends JFrame implements ActionListener{
                 }
 
                 if(Integer.parseInt(scoreCounterLabel.getText()) == 4){
-                    JOptionPane.showMessageDialog(null, "You won");
+                    JOptionPane.showMessageDialog(null, "Congratulations, You Won");
                 }
             }else if(e.getSource() == restart){
                 super.dispose();
